@@ -59,6 +59,8 @@ int main(int argc, char **argv)
     for (i = 0; i < world_size; i++) {
         if (world_rank == i) {
 
+            MPI_Send(&buf, 1, MPI_BYTE, (i+1) % world_size, 0, MPI_COMM_WORLD);
+
             /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             ~~~~~~~~~~~~~~Complete: ~~~~~~~~~~~~~~~~
 
@@ -68,6 +70,8 @@ int main(int argc, char **argv)
             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 
         } else if (world_rank == (i+1) % world_size) {
+
+            MPI_Recv(&buf, 1, MPI_BYTE, (i-1) % world_size, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
             /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             ~~~~~~~~~~~~~~Complete: ~~~~~~~~~~~~~~~~
