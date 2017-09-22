@@ -56,13 +56,11 @@ int main(int argc, char **argv)
 
     // Send and Receive Loop
     int i;
-    int send_rank = (world_rank + 1) % world_size;
-    int recv_rank = (world_rank - 1) < 0 ? (world_size - 1) : (world_rank - 1);
     for (i = 0; i < world_size; i++) {
         if (world_rank == i) {
 
-            MPI_Send(&buf, 1, MPI_BYTE, send_rank, 0, MPI_COMM_WORLD);
-            printf("inside %d sending %s to %d\n", world_rank, &buf, send_rank);
+            MPI_Send(&buf, 1, MPI_BYTE, (world_rank + 1) % world_size, 0, MPI_COMM_WORLD);
+            printf("inside %d sending %s to %d\n", world_rank, buf, send_rank);
 
             /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             ~~~~~~~~~~~~~~Complete: ~~~~~~~~~~~~~~~~
@@ -74,7 +72,7 @@ int main(int argc, char **argv)
 
         } else if (world_rank == (i+1) % world_size) {
 
-            MPI_Recv(&buf, 1, MPI_BYTE, recv_rank, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Recv(&buf, 1, MPI_BYTE, (world_rank + 1) % world_size, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             printf("inside %d receiving %s from %d\n", world_rank, &buf, recv_rank);
 
             /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
