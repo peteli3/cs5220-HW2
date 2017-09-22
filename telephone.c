@@ -60,7 +60,7 @@ int main(int argc, char **argv)
         if (world_rank == i) {
 
             MPI_Send(&buf, 1, MPI_BYTE, (world_rank + 1) % world_size, 0, MPI_COMM_WORLD);
-            printf("inside %d sending %s to %d\n", world_rank, buf, send_rank);
+            printf("inside %d sending %s to %d\n", world_rank, buf, (world_rank + 1) % world_size);
 
             /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             ~~~~~~~~~~~~~~Complete: ~~~~~~~~~~~~~~~~
@@ -73,7 +73,7 @@ int main(int argc, char **argv)
         } else if (world_rank == (i+1) % world_size) {
 
             MPI_Recv(&buf, 1, MPI_BYTE, (world_rank - 1) % world_size, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-            printf("inside %d receiving %s from %d\n", world_rank, buf, recv_rank);
+            printf("inside %d receiving %s from %d\n", world_rank, buf, (world_rank - 1) % world_size);
 
             /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
             ~~~~~~~~~~~~~~Complete: ~~~~~~~~~~~~~~~~
