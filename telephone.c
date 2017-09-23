@@ -72,7 +72,8 @@ int main(int argc, char **argv)
 
         } else if (world_rank == (i+1) % world_size) {
 
-            MPI_Recv(&buf, len, MPI_CHAR, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Status status;
+            MPI_Recv(&buf, len, MPI_CHAR, i, 0, MPI_COMM_WORLD, &status);
             printf("inside %d receiving %s from %d\n", i, buf, i);
 
             /*~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
